@@ -19,7 +19,7 @@ public class Knight extends MOB {
 	 */
 	protected final int id;
 	
-	
+	private Fortune activeFortune = null;
 	/**
 	 * Basic constructor for the knight object
 	 * @param id the ID - should be unique across all knights
@@ -30,18 +30,12 @@ public class Knight extends MOB {
 	 * @param damageDie the damage dice they use on a successful hit.
 	 * @param xp the xp for the knight
 	 */
-	public Knight(int id,
-            String name,
-            int hp,
-            int armor,
-            int hitmodifier,
-            DiceType damageDie,
-            int xp) : MOB(name,
-     	           hp,
-    	           armor,
-    	           hitModifier,
-    	           damageDie) {
+	public Knight(int id,String name,int hp,int armor,int hitmodifier,DiceType damageDie,int xp) {
 		
+		super(name,hp,armor,hitmodifier,damageDie);
+		this.id = id;
+		this.xp = xp;		
+
 	}
 	
 	/**
@@ -56,6 +50,10 @@ public class Knight extends MOB {
 	@Override
 	public int getArmor() {
 		
+		if (getActiveFortune() == null) //  activeFortune not in affect
+			return super.getArmor();
+		
+		return super.getArmor() + this.activeFortune.getArmor();
 	}
 	
 	/**
@@ -68,6 +66,11 @@ public class Knight extends MOB {
 	 */
 	@Override
 	public int getMaxHP() {
+
+		if (getActiveFortune() == null) //  activeFortune not in affect
+			return super.getMaxHP();
+		
+		return super.getMaxHP() + this.activeFortune.getMaxHP();
 		
 	}
 	
@@ -80,6 +83,11 @@ public class Knight extends MOB {
 	 */
 	@Override
 	public DiceType getDamageDie() {
+
+		if (getActiveFortune() == null) //  activeFortune not in affect
+			return super.getDamageDie();
+		
+		return this.activeFortune.getDamageDie();
 		
 	}
 	
@@ -93,6 +101,11 @@ public class Knight extends MOB {
 	 */
 	@Override
 	public int getHitModifier() {
+
+		if (getActiveFortune() == null) //  activeFortune not in affect
+			return super.getHitModifier();
+		
+		return super.getHitModifier() + this.activeFortune.getHitModifier();
 		
 	}
 	
@@ -101,7 +114,7 @@ public class Knight extends MOB {
 	 * @return the experience points as a whole number.
 	 */
 	public int getXP() {
-		
+		return this.xp;
 	}
 	
 	/**
@@ -109,7 +122,7 @@ public class Knight extends MOB {
 	 * @return the activeFortune currently being applied to the knight.
 	 */
 	public Fortune getActiveFortune() {
-		
+		return this.activeFortune;
 	}
 	
 	/**
@@ -117,7 +130,7 @@ public class Knight extends MOB {
 	 * @param activeFortune the fortune to set to the knight.
 	 */
 	public void setActiveFortune(Fortune activeFortune) {
-		
+		this.activeFortune = activeFortune;
 	}
 	
 	/**
@@ -125,7 +138,7 @@ public class Knight extends MOB {
 	 * @param xp the amount to add
 	 */
 	public void addXP(int xp) {
-		
+		this.xp += xp;
 	}
 	
 	/**
@@ -133,7 +146,7 @@ public class Knight extends MOB {
 	 * @return the Integer value of the id.
 	 */
 	public java.lang.Integer getId() {
-		
+		return new Integer(this.id);
 	}
 	
 	/**
@@ -177,11 +190,21 @@ public class Knight extends MOB {
 	 *	@return A formatted knight card
 	 */
 	public String toString() {
+		// TODO verify card and add spaces
+		String s = "+============================+\n";
+		s += "|" + getName()+ "|\n";
+		s += "| id: " + getId() + "|\n";
+		s += "|" + "|\n";
+		s += "| Health: " + getHP() + "\tXP: "+ getXP() +"|\n";
+		s += "|  Power: " + getDamageDie() + "\tArmor: " + getArmor() + "|\n";
+		s += "|" + "|\n";
+		s += "+============================+";
 		
+		return s;
 	}
 	
 	/**
-	 * Returns a Comma Seperated value representation of the knight. The order is as follows
+	 * Returns a Comma Separated value representation of the knight. The order is as follows
 	 * 
 	 * name,maxHP,armor,hitmodifer,damageDie,xp
 	 * 
@@ -193,6 +216,12 @@ public class Knight extends MOB {
 	 * @return a CSV representation of the object
 	 */
 	public String toCSV() {
-		
+		return String.format("%s,%d,%d,%d,%s,%d", 
+				this.getName(),
+				this.getMaxHP(),
+				this.getArmor(),
+				this.getHitModifier(),
+				this.getDamageDie(),
+				this.getXP());
 	}
 }

@@ -75,7 +75,7 @@ public class Main {
 		 * @param args the program arguments passed in from main
 		 */
 		public ProgramArguments(java.lang.String[] args){
-			
+			// TODO parse and extract args and save them in variables
 		}
 	}
 	

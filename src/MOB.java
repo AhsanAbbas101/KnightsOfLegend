@@ -36,6 +36,9 @@ public class MOB implements Attributes {
 	protected DiceType damageDie;
 	
 	
+	
+	private String name;
+	
 	/**
 	 * The basic constructor for the mob. Most of these attributes never change, once set
 	 * @param name name of the mob
@@ -49,32 +52,36 @@ public class MOB implements Attributes {
 	           int armor,
 	           int hitModifier,
 	           DiceType damageDie) {
-		
+		this.name = name;
+		this.maxHP = hp;
+		this.armor = armor;
+		this.hitModifier = hitModifier;
+		this.damageDie = damageDie;
 	}
 	
 	
 	@Override
 	public int getArmor() {
 		// TODO Auto-generated method stub
-		return 0;
+		return this.armor;
 	}
 
 	@Override
 	public int getMaxHP() {
 		// TODO Auto-generated method stub
-		return 0;
+		return this.maxHP;
 	}
 
 	@Override
 	public DiceType getDamageDie() {
 		// TODO Auto-generated method stub
-		return null;
+		return this.damageDie;
 	}
 
 	@Override
 	public int getHitModifier() {
 		// TODO Auto-generated method stub
-		return 0;
+		return this.hitModifier;
 	}
 	
 	/**
@@ -82,7 +89,7 @@ public class MOB implements Attributes {
 	 * @return the amount of damage the MOB has taken
 	 */
 	public int getDamage() {
-		
+		return this.damage;
 	}
 	
 	/**
@@ -90,7 +97,7 @@ public class MOB implements Attributes {
 	 * @return the name of the MOB
 	 */
 	public String getName() {
-		
+		return this.name;
 	}
 	
 	/**
@@ -98,7 +105,7 @@ public class MOB implements Attributes {
 	 * @param damage the amount to add in whole numbers
 	 */
 	public void addDamage(int damage) {
-		
+		this.damage += damage;
 	}
 	
 	/**
@@ -106,14 +113,14 @@ public class MOB implements Attributes {
 	 * @return the whole number value of the current hit points.
 	 */
 	public int getHP() {
-		
+		return this.getMaxHP() - this.getDamage();
 	}
 
 	/**
 	 * Resets the damage taken to 0.
 	 */
 	public void resetDamage() {
-		
+		this.damage = 0;
 	}
 	
 	/**
@@ -123,7 +130,8 @@ public class MOB implements Attributes {
 	 */
 	@Override
 	public String toString() {
-	
+		// TODO add toString MOB
+		return "";
 	}
 	
 	/**
@@ -131,7 +139,7 @@ public class MOB implements Attributes {
 	 * @return a copy/new MOB object
 	 */
 	public MOB copy() {
-		
+		return new MOB(getName(),getMaxHP(),getArmor(),getHitModifier(),getDamageDie());
 	}
 	
 }

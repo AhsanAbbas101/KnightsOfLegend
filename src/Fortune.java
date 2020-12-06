@@ -1,4 +1,4 @@
-
+import java.lang.String;
 /**
  * Fortunes are bonuses that can be applied to knights before they go on quests. 
  * As the bonus can apply to any attribute, they implement the Attributes interface. 
@@ -8,6 +8,12 @@
  */
 public class Fortune implements Attributes {
 
+	private final String name;
+	private final int hpBonus;
+	private final int armor;
+	private final int hitModifier;
+	private final DiceType type;
+	
 	/**
 	 * Basic constructor assuming no DamageDice replacement
 	 * @param name name of fortune card
@@ -15,11 +21,11 @@ public class Fortune implements Attributes {
 	 * @param armor armor bonus
 	 * @param hitModifier to hit bonus
 	 */
-	public Fortune(java.lang.String name,
+	public Fortune(String name,
             int hpBonus,
             int armor,
             int hitModifier) {
-		
+		this(name,hpBonus,armor,hitModifier,null);
 	}
 	
 	/**
@@ -30,12 +36,16 @@ public class Fortune implements Attributes {
 	 * @param hitModifier to hit bonus
 	 * @param type the damage dice replacement value
 	 */
-	public Fortune(java.lang.String name,
+	public Fortune(String name,
             int hpBonus,
             int armor,
             int hitModifier,
             DiceType type) {
-		
+		this.name = name;
+		this.hpBonus = hpBonus;
+		this.armor = armor;
+		this.hitModifier = hitModifier;
+		this.type  = type;	
 	}
 	
 	/**
@@ -44,8 +54,7 @@ public class Fortune implements Attributes {
 	 */
 	@Override
 	public int getArmor() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.armor;
 	}
 
 	/**
@@ -54,8 +63,7 @@ public class Fortune implements Attributes {
 	 */
 	@Override
 	public int getMaxHP() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.hpBonus;
 	}
 
 	/**
@@ -64,8 +72,7 @@ public class Fortune implements Attributes {
 	 */
 	@Override
 	public DiceType getDamageDie() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.type;
 	}
 
 	/**
@@ -74,8 +81,7 @@ public class Fortune implements Attributes {
 	 */
 	@Override
 	public int getHitModifier() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.hitModifier;
 	}
 	
 	/**
@@ -83,7 +89,7 @@ public class Fortune implements Attributes {
 	 * @return Name of the knight card
 	 */
 	public String getName() {
-		
+		return this.name;
 	}
 
 	/**
@@ -101,6 +107,17 @@ public class Fortune implements Attributes {
 	 * @return String value of the fortune
 	 */
 	public java.lang.String toString() {
-		
+		// TODO verify card and add spaces
+		String s = "+======================+\n";
+		s += "|" + getName()+ "|\n";
+		s += "|HP Bonus:" + getMaxHP() + "|\n";
+		s += "|AC Bonus:" + getArmor() + "|\n"; // TODO verify
+		s += "|Hit Bonus:" + getHitModifier() + "|\n";
+		s += "|Damage Adj:";
+		String dice = getDamageDie() == null ? "-" : "" + getDamageDie();
+		s +=  dice + "|\n";
+		s += "+======================+\n";
+
+		return s;
 	}
 }
