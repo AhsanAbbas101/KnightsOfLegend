@@ -111,7 +111,7 @@ public class Fortune implements Attributes {
 		String s = "+======================+\n";
 		s += "|" + getName()+ "|\n";
 		s += "|HP Bonus:" + getMaxHP() + "|\n";
-		s += "|AC Bonus:" + getArmor() + "|\n"; // TODO verify
+		s += "|AC Bonus:" + getArmor() + "|\n"; 
 		s += "|Hit Bonus:" + getHitModifier() + "|\n";
 		s += "|Damage Adj:";
 		String dice = getDamageDie() == null ? "-" : "" + getDamageDie();

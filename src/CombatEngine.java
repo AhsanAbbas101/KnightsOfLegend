@@ -1,3 +1,5 @@
+import java.util.List;
+import java.util.Random;
 
 /**
  * The combat engine runs the combat for the game.
@@ -6,6 +8,11 @@
  */
 public class CombatEngine {
 
+	private GameData data;
+	private GameView view;
+	private final Random random = new Random();
+	private final DiceSet diceSet = new DiceSet();
+	
 	/**
 	 * To run the combat, a GameData and GameView is essential for it to work. 
 	 * It is designed to use classes that implement the GameView and GameData interfaces
@@ -14,7 +21,8 @@ public class CombatEngine {
 	 */
 	public CombatEngine(GameData data,
             GameView view) {
-		
+		this.data = data;
+		this.view = view;
 	}
 	
 	/**
@@ -22,7 +30,12 @@ public class CombatEngine {
 	 * to each active knight, call GameView#printFortunes(List) )
 	 */
 	public void initialize() {
-		
+		// active knights are assigned random fortunes
+		for( Knight kt : data.getActiveKnights()) {
+			kt.setActiveFortune(data.getRandomFortune());
+		}
+		// call printFortunes
+		view.printFortunes(data.getActiveKnights());
 	}
 	
 	/**
@@ -58,13 +71,82 @@ public class CombatEngine {
 	 */
 	public void runCombat() {
 		
+		List<Knight> activeknights = data.getActiveKnights();
+	
+		boolean continueQuest = true;
+		while(continueQuest) {
+
+			// Generate random list of MOBs
+			List<MOB> monsters = data.getRandomMonsters();
+
+			// Print battle text
+			view.printBattleText(monsters, activeknights);
+
+			// Run Combat
+			while( !activeknights.isEmpty() && !monsters.isEmpty()) {
+			
+				// Knights attack monsters
+				for( Knight kt : activeknights) {
+					if (monsters.isEmpty())
+						break;
+					
+					MOB attackMonster = monsters.get(random.nextInt(monsters.size()));
+					int hit = calculateHit(kt);
+					attackMonster.addDamage(hit);	
+					if(attackMonster.getHP() <= 0) {
+						monsters.remove(attackMonster);		// Remove defeated MOB			
+						view.printBattleText(attackMonster);		// Print dead text
+						for( Knight kt1: activeknights )
+							kt1.addXP(1);		// Grant 1 xp to every active knight
+					}
+				}
+				
+				// Monsters attack Knights
+				for (MOB mob : monsters) {
+					if (activeknights.isEmpty())
+						break;
+					
+					Knight attackKnight = activeknights.get(random.nextInt(activeknights.size()));
+					int hit = calculateHit(mob);
+					attackKnight.addDamage(hit);
+					if (attackKnight.getHP() <= 0) {
+						activeknights.remove(attackKnight);		// Remove defeated MOB			
+						view.printBattleText(attackKnight); 	// Print dead text
+					}
+			
+				}
+							
+			}
+	
+			// Notify if all knights are dead
+			if (activeknights.isEmpty()) {
+				view.printDefeated();
+				continueQuest = false;
+			} 
+			else
+				continueQuest = view.checkContinue();
+		
+		}
+		
 	}
+	
+	private int calculateHit(MOB object) {
+		int D20 = diceSet.roll(DiceType.D20);
+		int hitModifier = object.getHitModifier();		// TODO check polymorphism
+		if (D20 + hitModifier > object.getArmor()) {
+			return diceSet.roll(object.getDamageDie());
+		}
+		return 0;
+	}
+
 	
 	/**
 	 * Sets all fortunes to null across all knights.
 	 * @see Knight#setActiveFortune(Fortune), GameData#getKnights()
 	 */
 	public void clear() {
-		
+		for( Knight kt: data.getKnights()) {
+			kt.setActiveFortune(null); // TODO reset damage where?
+		}
 	}
 }
