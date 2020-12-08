@@ -72,7 +72,9 @@ public class CombatEngine {
 	public void runCombat() {
 		
 		List<Knight> activeknights = data.getActiveKnights();
-	
+		if (activeknights.isEmpty())
+			return;
+		
 		boolean continueQuest = true;
 		while(continueQuest) {
 

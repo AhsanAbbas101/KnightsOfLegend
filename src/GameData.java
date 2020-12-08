@@ -98,7 +98,7 @@ public abstract class GameData {
 	protected Knight findKnight(String nameOrId,List<Knight> list) {
 		Knight toReturn = null;
 		for (Knight k : list) {
-			if (k.getId().toString().equals(nameOrId) || (k.getName().equals(nameOrId))) // comparison based on id or name
+			if (k.getId().toString().equals(nameOrId) || (k.getName().toLowerCase().contains(nameOrId))) // comparison based on id or name
 			{
 				toReturn = k;
 				break;
@@ -113,7 +113,8 @@ public abstract class GameData {
 	 * @return true if the added was successful, false if the knight was added, due to too many knights already being in the list
 	 */
 	public boolean setActive(Knight kt) {
-		if (this.activeKnights.size() < 4) {
+		if (this.activeKnights.size() < 4 && kt != null) {
+			
 			this.activeKnights.add(kt);
 			return true;
 		}
@@ -144,7 +145,7 @@ public abstract class GameData {
 	 * @return a list of MOBs no greater than activeKnights.size()
 	 */
 	public List<MOB> getRandomMonsters() {
-		int noOfmonsters = random.nextInt(activeKnights.size());
+		int noOfmonsters = random.nextInt(activeKnights.size()) + 1 ;
 		List<MOB> toReturn = new ArrayList<MOB>(noOfmonsters);
 		for (int i = 0; i < noOfmonsters; i++) {
 			MOB obj = monsters.get(random.nextInt(monsters.size()));

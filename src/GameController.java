@@ -89,14 +89,14 @@ public class GameController {
 	
 			break;
 		case "show":
-			t = st.nextToken("\n");
+			t = append(st);
 			view.showKnight(data.getKnight(t));
 			break;
 	
 		case "set":
 			t = st.nextToken();
 			if (t.equals("active")) {
-				t = st.nextToken("\n");
+				t = st.nextToken();
 				boolean result = data.setActive(data.getKnight(t));
 				if (!result)
 					view.setActiveFailed();
@@ -104,7 +104,7 @@ public class GameController {
 			break;
 	
 		case "remove":
-			t = st.nextToken("\n");
+			t = append(st);
 			data.removeActive(data.getKnight(t));
 			break;
 	
@@ -128,5 +128,19 @@ public class GameController {
 			view.printHelp();
 		}
 		return true;
+	}
+	
+	private String append(StringTokenizer st) {
+		String t = "";
+		while (st.countTokens() > 0) {
+			if (st.countTokens() < 2) {
+				t += st.nextToken();
+			}else {
+				t += st.nextToken();
+				t += " ";
+			}
+		}
+		
+		return t;
 	}
 }

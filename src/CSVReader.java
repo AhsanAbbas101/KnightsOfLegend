@@ -50,6 +50,8 @@ public class CSVReader {
 		try {
 			if (hasNext()) {
 				String s = fileScanner.next();	
+				s = s.replace("\r", "");
+				System.out.println(s);
 				if (s.equals(""))
 					return null;
 				

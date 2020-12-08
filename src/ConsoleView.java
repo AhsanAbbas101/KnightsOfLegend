@@ -141,7 +141,10 @@ public class ConsoleView implements GameView {
 	 */
 	@Override
 	public void showKnight(Knight knight) {
-		System.out.println(knight.toString());
+		if (knight != null)
+			System.out.println(knight.toString());
+		else
+			System.out.println("Cannot find Knight");
 	}
 
 	/**
@@ -154,6 +157,8 @@ public class ConsoleView implements GameView {
 		System.out.println("Unable to set active knight. Only four can be active at a time.");
 
 	}
+	
+	
 
 	/**
 	 * Lists a number of knights side by side with their 'foes' (aka monsters). Example:
@@ -176,15 +181,15 @@ public class ConsoleView implements GameView {
 	@Override
 	public void printBattleText(List<MOB> monsters, List<Knight> activeKnights) {
 		System.out.println("Our heroes come across the following monsters. Prepare for battle!");
-		System.out.println("Knights\t\tFoes");
-		int size = activeKnights.size() > monsters.size() ? activeKnights.size() : monsters.size() ;
+		System.out.println("Knights\t\t\t\tFoes");
+		int size = (activeKnights.size() > monsters.size()) ? activeKnights.size() : monsters.size() ;
 		for (int i = 0; i < size; i++) {
 			try {
-				System.out.print(activeKnights.get(i));
+				System.out.print(activeKnights.get(i).getName());
 			}catch(IndexOutOfBoundsException e) {}
 			System.out.print("\t\t");
 			try {
-				System.out.print(monsters.get(i));
+				System.out.print(monsters.get(i).getName());
 			}catch(IndexOutOfBoundsException e) {}
 			System.out.println();
 		}
@@ -255,7 +260,7 @@ public class ConsoleView implements GameView {
 	 */
 	@Override
 	public boolean checkContinue() {
-		System.out.println("What would you like to do? ");
+		System.out.println("Would you like to continue on your quest (y/n)?  ");
 		Scanner in = new Scanner(System.in);
 		String input = in.nextLine();
 		return ( input.equals("y") || input.equals("yes") );

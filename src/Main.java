@@ -48,11 +48,11 @@ public class Main {
 		// TODO verify
  		ProgramArguments pargs = new ProgramArguments(args);
  		System.out.println(pargs.gamedata +" "+ pargs.saveData);
-//  		GameData data = new CSVGameData(pargs.gamedata, pargs.saveData);
-//  		GameView view  = new ConsoleView();
-//  		CombatEngine engine = new CombatEngine(data, view);
-//  		GameController controller = new GameController(data, view, engine);
-//  		controller.start();
+  		GameData data = new CSVGameData(pargs.gamedata, pargs.saveData);
+  		GameView view  = new ConsoleView();
+  		CombatEngine engine = new CombatEngine(data, view);
+  		GameController controller = new GameController(data, view, engine);
+  		controller.start();
 
 	}
 

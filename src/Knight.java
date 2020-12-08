@@ -87,6 +87,9 @@ public class Knight extends MOB {
 		if (getActiveFortune() == null) //  activeFortune not in affect
 			return super.getDamageDie();
 		
+		if (this.activeFortune.getDamageDie() == null)
+			return super.getDamageDie();
+		
 		return this.activeFortune.getDamageDie();
 		
 	}
