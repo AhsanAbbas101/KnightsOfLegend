@@ -1,3 +1,5 @@
+import java.lang.String;
+import java.util.StringTokenizer;
 /**
  * Central point of communication between GameData, GameView and CombatEngine.
  * 
@@ -5,6 +7,10 @@
  */
 public class GameController {
 
+	private GameData data;
+	private GameView view;
+	private CombatEngine engine;
+	
 	/**
 	 * The GameController needs all major components of the game to work - view, data and combat
 	 * @param data GameData - does not care the type (CSV, JSON, etc), just the abstract class
@@ -14,7 +20,9 @@ public class GameController {
 	public GameController(GameData data,
             GameView view,
             CombatEngine engine) {
-		
+		this.data = data;
+		this.view = view;
+		this.engine = engine;
 	}
 	
 	/**
@@ -23,7 +31,15 @@ public class GameController {
 	 * @see GameView#displayMainMenu()
 	 */
 	public void start() {
+		view.splashScreen();
 		
+		boolean cont = true;
+		while(cont) {
+			String command = view.displayMainMenu();
+			cont = processCommand(command);
+		}
+		
+		view.endGame();
 	}
 	
 	/**
@@ -51,6 +67,66 @@ public class GameController {
 	 * @return true unless exit or bye is used.
 	 */
 	protected boolean processCommand(java.lang.String command) {
-		
+		StringTokenizer st = new StringTokenizer(command.toLowerCase(), " ");
+		String t = "";
+		switch (st.nextToken()) {
+		case "exit":
+		case "bye":
+			return false;
+	
+		case "ls":
+		case "list":
+			if (st.hasMoreTokens()) {
+				t = st.nextToken();
+				if (t.equals("all")) {
+					view.listKnights(data.getKnights());
+				} else if (t.equals("active")) {
+					view.listKnights(data.getActiveKnights());
+				}
+			} else {
+				view.listKnights(data.getKnights());
+			}
+	
+			break;
+		case "show":
+			t = st.nextToken("\n");
+			view.showKnight(data.getKnight(t));
+			break;
+	
+		case "set":
+			t = st.nextToken();
+			if (t.equals("active")) {
+				t = st.nextToken("\n");
+				boolean result = data.setActive(data.getKnight(t));
+				if (!result)
+					view.setActiveFailed();
+			}
+			break;
+	
+		case "remove":
+			t = st.nextToken("\n");
+			data.removeActive(data.getKnight(t));
+			break;
+	
+		case "save":
+			if (st.hasMoreTokens()) {
+				t = st.nextToken();
+				data.save(t);
+			}else {
+				data.save("saveData.csv");
+			}
+			break;
+		case "explore":
+		case "adventure":
+		case "quest":
+			 engine.initialize();
+			 engine.runCombat();
+			 engine.clear();
+			break;
+	
+		default:
+			view.printHelp();
+		}
+		return true;
 	}
 }

@@ -16,7 +16,7 @@ import java.lang.String;
  *	Examples:
  *
  *	java Main 
- *  java Main savedData.csv
+ *  java Main savedData.csv 
  *  java Main --data=gamedata.csv
  *  java Main --data=gamedata2.csv mygame.csv
  *
@@ -44,7 +44,15 @@ public class Main {
 	 * @param args the command line arguments option
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		
+		// TODO verify
+ 		ProgramArguments pargs = new ProgramArguments(args);
+ 		System.out.println(pargs.gamedata +" "+ pargs.saveData);
+//  		GameData data = new CSVGameData(pargs.gamedata, pargs.saveData);
+//  		GameView view  = new ConsoleView();
+//  		CombatEngine engine = new CombatEngine(data, view);
+//  		GameController controller = new GameController(data, view, engine);
+//  		controller.start();
 
 	}
 
@@ -76,6 +84,26 @@ public class Main {
 		 */
 		public ProgramArguments(java.lang.String[] args){
 			// TODO parse and extract args and save them in variables
+			if (args.length < 1 || args.length > 2)
+			{
+				gamedata = "data/gamedata.csv";
+				saveData = "data/knights.csv";
+				return;
+			}
+			for( String s : args) {
+				if (s.startsWith("--data=")) {
+					try {
+						gamedata = s.split("=")[1];
+					} catch (IndexOutOfBoundsException e) {
+						gamedata = "data/gamedata.csv";
+					}
+				}
+				else {
+					saveData = s;
+				}
+			}
+			if (gamedata == null)
+				gamedata = "data/gamedata.csv";
 		}
 	}
 	

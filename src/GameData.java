@@ -126,6 +126,7 @@ public abstract class GameData {
 	 * @see MOB.resetDamage()
 	 */
 	public void removeActive(Knight kt) {
+		// TODO verify null check
 		this.activeKnights.remove(kt);
 		kt.resetDamage();
 	}
