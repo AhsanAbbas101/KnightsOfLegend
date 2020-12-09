@@ -137,7 +137,9 @@ public abstract class GameData {
 	 * @return a Fortune from the fortunes list
 	 */
 	public Fortune getRandomFortune() {
-		return fortunes.get(random.nextInt(fortunes.size()));
+		if (!fortunes.isEmpty())
+			return fortunes.get(random.nextInt(fortunes.size()));
+		return null;
 	}
 	
 	/**

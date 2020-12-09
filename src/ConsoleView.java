@@ -40,7 +40,7 @@ public class ConsoleView implements GameView {
 	 */
 	@Override
 	public String displayMainMenu() {
-		System.out.println("What would you like to do? ");
+		System.out.print("What would you like to do? ");
 		Scanner in = new Scanner(System.in);
 		return in.nextLine();
 		// TODO verify input
@@ -78,7 +78,7 @@ public class ConsoleView implements GameView {
 		System.out.println("\tsave filename - save the game to the file name (default: saveData.csv)");
 		System.out.println("\texit or goodbye - to leave the game\n");
 		System.out.println("Game rules: You can have four active knights. As long as they are active, they won't heal, " + 
-				"but they can gain XP by going on adventures. " + 
+				"but they can gain XP by going on adventures.\n" + 
 				"When you make a knight inactive, they will heal. How many monsters can you defeat " + 
 				"before, you have to heal?");
 		
@@ -181,17 +181,18 @@ public class ConsoleView implements GameView {
 	@Override
 	public void printBattleText(List<MOB> monsters, List<Knight> activeKnights) {
 		System.out.println("Our heroes come across the following monsters. Prepare for battle!");
-		System.out.println("Knights\t\t\t\tFoes");
+		System.out.println(String.format("%-30s %-30s","Knights","Foes"));
 		int size = (activeKnights.size() > monsters.size()) ? activeKnights.size() : monsters.size() ;
 		for (int i = 0; i < size; i++) {
+			String mob = "";
+			String kt = ""; 
 			try {
-				System.out.print(activeKnights.get(i).getName());
+				kt = activeKnights.get(i).getName();
 			}catch(IndexOutOfBoundsException e) {}
-			System.out.print("\t\t");
 			try {
-				System.out.print(monsters.get(i).getName());
+				mob = monsters.get(i).getName();
 			}catch(IndexOutOfBoundsException e) {}
-			System.out.println();
+			System.out.println(String.format("%-30s %-30s",kt,mob));
 		}
 	}
 
@@ -243,12 +244,16 @@ public class ConsoleView implements GameView {
 	 */
 	@Override
 	public void printFortunes(List<Knight> activeKnights) {
-		
+		System.out.println("For this quest, our knights drew the following fortunes!");
 		for( Knight kt : activeKnights ) {
 			System.out.println(kt.getName() + " drew");
-			System.out.println(kt.getActiveFortune().toString());
+			Fortune ft = kt.getActiveFortune();
+			if (ft != null)
+				System.out.println(ft.toString());
+			else
+				System.out.println("No Active Fortune");
 		}
-
+		System.out.println();
 	}
 
 	/**
@@ -260,9 +265,10 @@ public class ConsoleView implements GameView {
 	 */
 	@Override
 	public boolean checkContinue() {
-		System.out.println("Would you like to continue on your quest (y/n)?  ");
+		System.out.print("Would you like to continue on your quest (y/n)?  ");
 		Scanner in = new Scanner(System.in);
 		String input = in.nextLine();
+		System.out.println();
 		return ( input.equals("y") || input.equals("yes") );
 
 	}

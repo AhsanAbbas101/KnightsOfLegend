@@ -17,10 +17,18 @@ public class CSVGameData extends GameData {
 	 * @param saveData A data file containing knights
 	 */
 	public CSVGameData(String gamedata,String saveData) {
+		try {
 		if(gamedata != null)
 			loadGameData(gamedata);
-		if(saveData != null)
-			loadSaveData(saveData);
+		} catch (Exception e) {
+			System.err.println("Error Reading file: "+gamedata);
+		}
+		try {
+			if(saveData != null)
+				loadSaveData(saveData);
+		}catch (Exception e) {
+			System.err.println("Error Reading file: "+saveData);
+		}
 	}
 	
 	/**
@@ -29,6 +37,7 @@ public class CSVGameData extends GameData {
 	 * @param saveData a file containing knight information
 	 */
 	void loadSaveData(java.lang.String saveData) {
+
 		CSVReader reader = new CSVReader(saveData,false);
 		int idCounter = 0;
 		while(reader.hasNext()) {
@@ -84,6 +93,7 @@ public class CSVGameData extends GameData {
 						Integer.parseInt(line.get(3)),  // armor
 						Integer.parseInt(line.get(4)), // hitModifier
 						getDiceType(line.get(5)));		// dieReplacement
+				
 				this.fortunes.add(obj);
 			}
 		}

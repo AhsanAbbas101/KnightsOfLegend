@@ -193,14 +193,13 @@ public class Knight extends MOB {
 	 *	@return A formatted knight card
 	 */
 	public String toString() {
-		// TODO verify card and add spaces
 		String s = "+============================+\n";
-		s += "|" + getName()+ "|\n";
-		s += "| id: " + getId() + "|\n";
-		s += "|" + "|\n";
-		s += "| Health: " + getHP() + "\tXP: "+ getXP() +"|\n";
-		s += "|  Power: " + getDamageDie() + "\tArmor: " + getArmor() + "|\n";
-		s += "|" + "|\n";
+		s += String.format("| %-27s|\n",getName());
+		s += String.format("| id: %-23d|\n",getId());
+		s += String.format("| %-27s|\n","");
+		s += String.format("| Health: %-6d  XP: %-7d|\n",getHP(), getXP());
+		s += String.format("|  Power: %-6s  Armor: %-4d|\n",getDamageDie(), getArmor());
+		s += String.format("| %-27s|\n","");
 		s += "+============================+";
 		
 		return s;

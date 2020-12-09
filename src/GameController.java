@@ -32,7 +32,7 @@ public class GameController {
 	 */
 	public void start() {
 		view.splashScreen();
-		
+		System.out.println();
 		boolean cont = true;
 		while(cont) {
 			String command = view.displayMainMenu();
@@ -86,11 +86,12 @@ public class GameController {
 			} else {
 				view.listKnights(data.getKnights());
 			}
-	
+			System.out.println();
 			break;
 		case "show":
 			t = append(st);
 			view.showKnight(data.getKnight(t));
+			System.out.println();
 			break;
 	
 		case "set":
@@ -98,8 +99,10 @@ public class GameController {
 			if (t.equals("active")) {
 				t = st.nextToken();
 				boolean result = data.setActive(data.getKnight(t));
-				if (!result)
+				if (!result) {
 					view.setActiveFailed();
+					System.out.println();
+				}
 			}
 			break;
 	
@@ -119,6 +122,7 @@ public class GameController {
 		case "explore":
 		case "adventure":
 		case "quest":
+			 System.out.println();
 			 engine.initialize();
 			 engine.runCombat();
 			 engine.clear();
@@ -126,6 +130,7 @@ public class GameController {
 	
 		default:
 			view.printHelp();
+			System.out.println();
 		}
 		return true;
 	}

@@ -109,13 +109,12 @@ public class Fortune implements Attributes {
 	public java.lang.String toString() {
 		// TODO verify card and add spaces
 		String s = "+======================+\n";
-		s += "|" + getName()+ "|\n";
-		s += "|HP Bonus:" + getMaxHP() + "|\n";
-		s += "|AC Bonus:" + getArmor() + "|\n"; 
-		s += "|Hit Bonus:" + getHitModifier() + "|\n";
-		s += "|Damage Adj:";
+		s += String.format("|%-22s|\n",getName());
+		s += String.format("|HP Bonus: %+12d|\n",getMaxHP());
+		s += String.format("|AC Bonus: %+12d|\n",getArmor());
+		s += String.format("|Hit Bonus: %+11d|\n",getHitModifier());
 		String dice = getDamageDie() == null ? "-" : "" + getDamageDie();
-		s +=  dice + "|\n";
+		s += String.format("|Damage Adj: %10s|\n",dice);
 		s += "+======================+\n";
 
 		return s;

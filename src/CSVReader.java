@@ -34,8 +34,8 @@ public class CSVReader {
 		try {
 			fileScanner = new Scanner(new File(file)); 
 			fileScanner.useDelimiter("\n"); 
-		}catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			System.err.println("Error Opening File.");
 		}
 	}
 
@@ -51,7 +51,7 @@ public class CSVReader {
 			if (hasNext()) {
 				String s = fileScanner.next();	
 				s = s.replace("\r", "");
-				System.out.println(s);
+				
 				if (s.equals(""))
 					return null;
 				
@@ -70,7 +70,12 @@ public class CSVReader {
 	 * Checks to see if the fileScanner has more lines and returns the answer.
 	 * @return true if the file scanner has more lines (hasNext())
 	 */
-	public boolean hasNext() {
+	public boolean hasNext(){
+		try {
 		return fileScanner.hasNext();
+		} catch (IllegalStateException e) {
+			System.err.println("IllegalStateException error");
+			return false;
+		}
 	}
 }
