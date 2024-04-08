@@ -1,6 +1,6 @@
 # KnightsOfLegend
 
-KnightsOfLegend is Java Implementation of <a src="https://www.cs.colostate.edu/~cs163/.Fall21/practicals/p5/knightfight-revamp/">Round Table Games: Knights of Legend</a>
+KnightsOfLegend is Java Implementation of [Round Table Games: Knights of Legend](https://www.cs.colostate.edu/~cs163/.Fall21/practicals/p5/knightfight-revamp/)
 
 ## Features
 ### File Handling
