@@ -2,6 +2,16 @@
 
 KnightsOfLegend is Java Implementation of [Round Table Games: Knights of Legend](https://www.cs.colostate.edu/~cs163/.Fall21/practicals/p5/knightfight-revamp/)
 
+## Build and Execute
+To compile the files, execute the folllowing command in base directory:
+```
+javac src/*.java
+```
+To run the program, execute:
+```
+java -cp src Main
+```
+
 ## Features
 ### File Handling
 
